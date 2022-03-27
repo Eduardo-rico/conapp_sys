@@ -12,7 +12,7 @@ const Div = styled.div`
 	align-items: center;
 `;
 
-export default function Home() {
+export default function Login() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [token, setToken] = useState('');
@@ -30,7 +30,7 @@ export default function Home() {
 		const resJson = await res.json();
 		const token = resJson.token;
 		setToken(token);
-		// console.log(resJson);
+		console.log(resJson);
 		// if (token) {
 		// 	const json = jwt.decode(token);
 		// 	setMessage(`Bienvenido ${json.username}`);

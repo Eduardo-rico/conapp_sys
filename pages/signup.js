@@ -12,37 +12,25 @@ const Div = styled.div`
 	align-items: center;
 `;
 
-export default function Home() {
+const signup = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [token, setToken] = useState('');
-	const [message, setMessage] = useState('No estás logueado');
 
-	async function submitForm(e) {
+	const submitForm = async (e) => {
 		e.preventDefault();
-		const res = await fetch('/api/login', {
+
+		const res = await fetch('/api/usuario/create', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
+			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ username, password }),
 		});
-		const resJson = await res.json();
-		const token = resJson.token;
-		setToken(token);
-		// console.log(resJson);
-		// if (token) {
-		// 	const json = jwt.decode(token);
-		// 	setMessage(`Bienvenido ${json.username}`);
-		// } else {
-		// 	setMessage(`Algo ocurrió mal o no estás registrado`);
-		// }
-	}
+
+		console.log(res);
+	};
 
 	return (
 		<Div>
 			<form onSubmit={submitForm}>
-				<h1>{message}</h1>
 				<input
 					type="text"
 					name="username"
@@ -58,8 +46,10 @@ export default function Home() {
 					onChange={(e) => setPassword(e.target.value)}
 				/>
 				<br />
-				<input type="submit" value="login" />
+				<input type="submit" value="Crear usuario" />
 			</form>
 		</Div>
 	);
-}
+};
+
+export default signup;
