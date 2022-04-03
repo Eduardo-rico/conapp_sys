@@ -4,7 +4,7 @@ import { Nav, NavbarContainer, NavLogo } from './NavbarElements';
 const NavBar = () => {
 	return (
 		<>
-			<Nav>
+			<Nav className="bg-gray-800">
 				<NavbarContainer>
 					<NavLogo>conapp</NavLogo>
 				</NavbarContainer>

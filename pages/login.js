@@ -31,6 +31,7 @@ export default function Login() {
 		const token = resJson.token;
 		setToken(token);
 		console.log(resJson);
+		console.log(token);
 		// if (token) {
 		// 	const json = jwt.decode(token);
 		// 	setMessage(`Bienvenido ${json.username}`);

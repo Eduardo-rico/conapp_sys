@@ -1,13 +1,10 @@
 import styled from 'styled-components';
-import jwt from 'jsonwebtoken';
-import Head from 'next/head';
-import Image from 'next/image';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const Div = styled.div`
 	display: flex;
-	width: 100vw;
-	height: 100vh;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 `;
@@ -17,6 +14,15 @@ export default function Home() {
 	const [password, setPassword] = useState('');
 	const [token, setToken] = useState('');
 	const [message, setMessage] = useState('No estás logueado');
+
+	const router = useRouter();
+
+	useEffect(() => {
+		const localToken = localStorage.getItem('token');
+		if (localToken || token) {
+			router.push('/plataforma');
+		}
+	}, [token]);
 
 	async function submitForm(e) {
 		e.preventDefault();
@@ -30,7 +36,7 @@ export default function Home() {
 		const resJson = await res.json();
 		const token = resJson.token;
 		setToken(token);
-		// console.log(resJson);
+		localStorage.setItem('token', token);
 		// if (token) {
 		// 	const json = jwt.decode(token);
 		// 	setMessage(`Bienvenido ${json.username}`);
@@ -40,25 +46,33 @@ export default function Home() {
 	}
 
 	return (
-		<Div>
-			<form onSubmit={submitForm}>
-				<h1>{message}</h1>
+		<Div className="bg-slate-100 h-screen overflow-hidden">
+			<h2 className="font-bold text-2xl p-3">Inicia sesión</h2>
+			<form onSubmit={submitForm} className="rounded-md p-5 shadow-lg">
+				<label className="block text-lg">Username</label>
 				<input
+					className="block mb-5 rounded-sm p-1"
 					type="text"
 					name="username"
 					defaultValue={username}
 					onChange={(e) => setUsername(e.target.value)}
 					placeholder="Username"
 				/>
-				<br />
+
+				<label className="text-lg">Contraseña</label>
 				<input
+					className="block mb-5 rounded-sm p-1"
 					type="password"
 					name="password"
 					defaultValue={password}
 					onChange={(e) => setPassword(e.target.value)}
 				/>
-				<br />
-				<input type="submit" value="login" />
+
+				<input
+					type="submit"
+					value="login"
+					className="w-full text-center text-lg text-white bg-indigo-500 rounded-md p-1 uppercase hover:bg-indigo-700 cursor-pointer transition-all"
+				/>
 			</form>
 		</Div>
 	);

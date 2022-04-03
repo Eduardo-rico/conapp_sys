@@ -5,13 +5,17 @@ const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
 	const { username, password } = req.body;
-	console.log(username);
-	console.log(password);
 	const hashedPassword = bcrypt.hashSync(password, 10);
-	const user = await prisma.usuario.create({
-		data: { username, password: hashedPassword },
-	});
-	res.json({ user });
+	try {
+		const user = await prisma.usuario.create({
+			data: { username, password: hashedPassword },
+		});
+		res.json({ user });
+	} catch (error) {
+		if (error.code === 'P2002') {
+			res.status(409).json({ error });
+		}
+	}
 };
 
 export default createUser;
