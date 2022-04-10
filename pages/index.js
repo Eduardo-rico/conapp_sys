@@ -34,9 +34,17 @@ export default function Home() {
 			body: JSON.stringify({ username, password }),
 		});
 		const resJson = await res.json();
+		console.log(resJson);
+		if (resJson.message) {
+			setMessage(resJson.message);
+		}
 		const token = resJson.token;
-		setToken(token);
-		localStorage.setItem('token', token);
+		if (!token) {
+			console.log('no token');
+		} else {
+			setToken(token);
+			localStorage.setItem('token', token);
+		}
 		// if (token) {
 		// 	const json = jwt.decode(token);
 		// 	setMessage(`Bienvenido ${json.username}`);
@@ -47,6 +55,7 @@ export default function Home() {
 
 	return (
 		<Div className="bg-slate-100 h-screen overflow-hidden">
+			{message && <h3>{message}</h3>}
 			<h2 className="font-bold text-2xl p-3">Inicia sesión</h2>
 			<form onSubmit={submitForm} className="rounded-md p-5 shadow-lg">
 				<label className="block text-lg">Username</label>

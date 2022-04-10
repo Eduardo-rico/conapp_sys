@@ -1,15 +1,14 @@
-import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 
-const prisma = new PrismaClient();
+import prisma from '../../../lib/prisma';
 
 const createUser = async (req, res) => {
 	if (req.method == 'POST') {
 		try {
-			const usuarioCuid = req.headers.authorization?.split(' ')[1];
-			console.log(usuarioCuid);
-			const { username } = jwt.decode(usuarioCuid);
-			if (!usuarioCuid) {
+			const userToken = req.headers.authorization?.split(' ')[1];
+			console.log(userToken);
+			const { username, id } = jwt.decode(userToken);
+			if (!userToken) {
 				return res.status(401).json({ error: 'No token in headers' });
 			}
 			const { nombre, rfc, email, usernameConagua, passConagua } = req.body;
@@ -21,7 +20,7 @@ const createUser = async (req, res) => {
 					email,
 					usernameConagua,
 					passConagua,
-					usuarioId: username,
+					usuarioId: id,
 				},
 			});
 			return res.status(201).json({ cliente });

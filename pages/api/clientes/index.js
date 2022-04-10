@@ -1,23 +1,21 @@
-import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
-
-const prisma = new PrismaClient();
+import prisma from '../../../lib/prisma';
 
 export default async function getAllClientes(req, res) {
 	const usuarioCuid = req.headers.authorization?.split(' ')[1];
-	const { username } = jwt.decode(usuarioCuid);
-	console.log(username);
 	if (!usuarioCuid) {
-		return res.status(401).json({ error: 'No token in headers' });
+		return res.status(400).json({ error: 'no hay token?' });
 	}
+	const { id } = jwt.decode(usuarioCuid);
 	try {
 		const clientes = await prisma.cliente.findMany({
 			where: {
-				usuarioId: username,
+				usuarioId: id,
 			},
 		});
 		return res.json({ clientes });
 	} catch (error) {
 		console.log(error);
+		return res.status(400).json({ error });
 	}
 }

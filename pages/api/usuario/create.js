@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
-const prisma = new PrismaClient();
+import prisma from '../../../lib/prisma';
 
 const createUser = async (req, res) => {
 	const { username, password } = req.body;
@@ -10,10 +9,10 @@ const createUser = async (req, res) => {
 		const user = await prisma.usuario.create({
 			data: { username, password: hashedPassword },
 		});
-		res.json({ user });
+		return res.json({ user });
 	} catch (error) {
 		if (error.code === 'P2002') {
-			res.status(409).json({ error });
+			return res.status(409).json({ error });
 		}
 	}
 };

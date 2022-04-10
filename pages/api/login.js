@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
-const prisma = new PrismaClient();
+import prisma from '../../lib/prisma';
 const KEY = '7868767896789689';
 
 const login = async (req, res) => {
@@ -31,6 +30,7 @@ const login = async (req, res) => {
 				token: jwt.sign(
 					{
 						username,
+						id: dbUser.id,
 					},
 					KEY
 				),
