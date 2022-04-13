@@ -44,6 +44,7 @@ export default function Home() {
 		} else {
 			setToken(token);
 			localStorage.setItem('token', token);
+			router.push('/plataforma');
 		}
 		// if (token) {
 		// 	const json = jwt.decode(token);
