@@ -6,7 +6,6 @@ const createUser = async (req, res) => {
 	if (req.method == 'POST') {
 		try {
 			const userToken = req.headers.authorization?.split(' ')[1];
-			console.log(userToken);
 			const { username, id } = jwt.decode(userToken);
 			if (!userToken) {
 				return res.status(401).json({ error: 'No token in headers' });

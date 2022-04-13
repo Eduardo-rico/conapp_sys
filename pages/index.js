@@ -22,7 +22,7 @@ export default function Home() {
 		if (localToken || token) {
 			router.push('/plataforma');
 		}
-	}, [token]);
+	}, []);
 
 	async function submitForm(e) {
 		e.preventDefault();

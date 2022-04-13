@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Aside from '../../components/Aside';
-import Card from '../../components/Card';
+import Aside from '../../../components/Aside';
+import Card from '../../../components/Card';
 
 const usuarios = () => {
 	const [usuarios, setUsuarios] = useState([]);
@@ -21,16 +21,24 @@ const usuarios = () => {
 			},
 		});
 		const { clientes } = await requestUsers.json();
-		console.log(clientes);
+		// console.log(clientes);
 		setUsuarios(clientes);
 	}, []);
 
 	return (
 		<div className="container flex">
 			<Aside />
-			<div className=" w-3/4 container flex justify-center">
-				<div>
+			<div className="container flex">
+				<div className="w-auto">
 					<h2 className="text-3xl">Usuarios</h2>
+					<button
+						className="bg-blue-200 rounded-md p-2"
+						onClick={() => {
+							router.push('/plataforma/usuarios/new');
+						}}
+					>
+						Crear cliente
+					</button>
 					<div>
 						{usuarios.map((cliente) => {
 							return <Card key={cliente.id} cliente={cliente} />;
